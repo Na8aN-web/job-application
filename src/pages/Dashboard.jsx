@@ -198,7 +198,7 @@ const Dashboard = () => {
             rejectedJobs.map((job) => ({
                 Title: job.title,
                 Company: job.companyName,
-                'Previous Status': job.previousStatus,
+                'Previous Status': job.previousstatus,
                 'Rejection Date': new Date(job.dateApplied).toLocaleDateString(),
             }))
         );
