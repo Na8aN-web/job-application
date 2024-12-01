@@ -83,7 +83,12 @@ const Dashboard = () => {
                 //     newStatusHistory[job._id] = job.status;
                 // });
                 // setStatusHistory((prevHistory) => ({ ...prevHistory, ...newStatusHistory })); // Ensure incremental updates
-
+                const uniqueCompanies = [...new Set(data.map((job) => job.companyName))];
+                const colors = {};
+                uniqueCompanies.forEach((company, index) => {
+                    colors[company] = hsl(${index * 45}, 70%, 50%);
+                });
+                setCompanyColors(colors);
                 setFilteredJobs(data);
                 updateJobStatusData(data);
                 computeMilestoneCounts(data);
