@@ -61,46 +61,46 @@ const Dashboard = () => {
     const jobsPerPage = 10;
     const navigate = useNavigate();
 
-    useEffect(() => {
-       const fetchJobsList = async () => {
-            try {
-                const apiUrl = ${process.env.REACT_APP_API_BASE_URL}/auth/jobs;
-                const response = await fetch(apiUrl, {
-                    headers: {
-                        Authorization: Bearer ${localStorage.getItem('accessToken')},
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error(API responded with status ${response.status});
-                }
-                const data = await response.json();
-                console.log(data)
-                setJobsList(data);
+   useEffect(() => {
+    const fetchJobsList = async () => {
+        try {
+            const apiUrl = `${process.env.REACT_APP_API_BASE_URL}/auth/jobs`;
+            const response = await fetch(apiUrl, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
+            });
+            if (!response.ok) {
+                throw new Error(`API responded with status ${response.status}`);
+            }
+            const data = await response.json();
+            console.log(data);
+            setJobsList(data);
 
-                // Update status history dynamically
-                // const newStatusHistory = {};
-                // data.forEach((job) => {
-                //     newStatusHistory[job._id] = job.status;
-                // });
-                // setStatusHistory((prevHistory) => ({ ...prevHistory, ...newStatusHistory })); // Ensure incremental updates
+            // Update status history dynamically
+            // const newStatusHistory = {};
+            // data.forEach((job) => {
+            //     newStatusHistory[job._id] = job.status;
+            // });
+            // setStatusHistory((prevHistory) => ({ ...prevHistory, ...newStatusHistory })); // Ensure incremental updates
 
-                setFilteredJobs(data);
-                const uniqueCompanies = [...new Set(data.map((job) => job.companyName))];
-                const colors = {};
-                uniqueCompanies.forEach((company, index) => {
-                    colors[company] = hsl(${index * 45}, 70%, 50%);
-                });
-                setCompanyColors(colors);
-                updateJobStatusData(data);
-                computeMilestoneCounts(data);
-                computeRates(data); // Calculate Success and Rejection Rates
-            } catch (error) {
-                console.error('Failed to fetch jobs list:', error);
-            }
-        };
+            setFilteredJobs(data);
+            const uniqueCompanies = [...new Set(data.map((job) => job.companyName))];
+            const colors = {};
+            uniqueCompanies.forEach((company, index) => {
+                colors[company] = `hsl(${index * 45}, 70%, 50%)`;
+            });
+            setCompanyColors(colors);
+            updateJobStatusData(data);
+            computeMilestoneCounts(data);
+            computeRates(data); // Calculate Success and Rejection Rates
+        } catch (error) {
+            console.error('Failed to fetch jobs list:', error);
+        }
+    };
 
-        fetchJobsList();
-    }, []);
+    fetchJobsList();
+}, []);
 
 
     useEffect(() => {
